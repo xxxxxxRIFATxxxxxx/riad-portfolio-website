@@ -28,6 +28,12 @@ body::before {
   z-index: -1;
 }
 
+@media only screen and (max-width: 600px) {
+  body::before {
+    background: #040404;
+  }
+}
+
 @media (min-width: 1024px) {
   body::before {
     background-attachment: fixed;
