@@ -75,11 +75,18 @@ fetch("https://fast-coast-58840.herokuapp.com/portfolios")
         }, 2000);
     });
 
+let currentActive = document.querySelector(".filter-active");
+
 const portfolioFlters = document.getElementById("portfolio-flters");
 portfolioFlters.addEventListener("click", (e) => {
     if (e.target.getAttribute("data-filter") === ".motion-graphic-video") {
         portfolioContainer.innerHTML = "";
         portfolioSpinner.style.display = "block";
+
+        currentActive.classList.remove("filter-active");
+        e.target.classList.add("filter-active");
+        currentActive = e.target;
+
         motionGraphicVideo.forEach(portfolio => {
             // Create Element For Common
             const div = document.createElement("div");
@@ -119,6 +126,11 @@ portfolioFlters.addEventListener("click", (e) => {
     else if (e.target.getAttribute("data-filter") === ".tvc") {
         portfolioContainer.innerHTML = "";
         portfolioSpinner.style.display = "block";
+
+        currentActive.classList.remove("filter-active");
+        e.target.classList.add("filter-active");
+        currentActive = e.target;
+
         tvc.forEach(portfolio => {
             // Create Element For Common
             const div = document.createElement("div");
@@ -158,6 +170,11 @@ portfolioFlters.addEventListener("click", (e) => {
     else if (e.target.getAttribute("data-filter") === ".html-css") {
         portfolioContainer.innerHTML = "";
         portfolioSpinner.style.display = "block";
+
+        currentActive.classList.remove("filter-active");
+        e.target.classList.add("filter-active");
+        currentActive = e.target;
+
         htmlCss.forEach(portfolio => {
             // Create Element For Common
             const div = document.createElement("div");
@@ -197,6 +214,11 @@ portfolioFlters.addEventListener("click", (e) => {
     else if (e.target.getAttribute("data-filter") === ".3D-animation") {
         portfolioContainer.innerHTML = "";
         portfolioSpinner.style.display = "block";
+
+        currentActive.classList.remove("filter-active");
+        e.target.classList.add("filter-active");
+        currentActive = e.target;
+
         threeDAnimation.forEach(portfolio => {
             // Create Element For Common
             const div = document.createElement("div");
@@ -236,6 +258,11 @@ portfolioFlters.addEventListener("click", (e) => {
     else if (e.target.getAttribute("data-filter") === ".static-design") {
         portfolioContainer.innerHTML = "";
         portfolioSpinner.style.display = "block";
+
+        currentActive.classList.remove("filter-active");
+        e.target.classList.add("filter-active");
+        currentActive = e.target;
+
         staticDesign.forEach(portfolio => {
             // Create Element For Common
             const div = document.createElement("div");
@@ -275,6 +302,11 @@ portfolioFlters.addEventListener("click", (e) => {
     else if (e.target.getAttribute("data-filter") === ".branding") {
         portfolioContainer.innerHTML = "";
         portfolioSpinner.style.display = "block";
+
+        currentActive.classList.remove("filter-active");
+        e.target.classList.add("filter-active");
+        currentActive = e.target;
+
         branding.forEach(portfolio => {
             // Create Element For Common
             const div = document.createElement("div");
@@ -314,6 +346,11 @@ portfolioFlters.addEventListener("click", (e) => {
     else if (e.target.getAttribute("data-filter") === ".print-media") {
         portfolioContainer.innerHTML = "";
         portfolioSpinner.style.display = "block";
+
+        currentActive.classList.remove("filter-active");
+        e.target.classList.add("filter-active");
+        currentActive = e.target;
+
         printMedia.forEach(portfolio => {
             // Create Element For Common
             const div = document.createElement("div");
@@ -353,6 +390,11 @@ portfolioFlters.addEventListener("click", (e) => {
     else if (e.target.getAttribute("data-filter") === ".ui-ux") {
         portfolioContainer.innerHTML = "";
         portfolioSpinner.style.display = "block";
+
+        currentActive.classList.remove("filter-active");
+        e.target.classList.add("filter-active");
+        currentActive = e.target;
+
         uiUx.forEach(portfolio => {
             // Create Element For Common
             const div = document.createElement("div");
@@ -392,6 +434,11 @@ portfolioFlters.addEventListener("click", (e) => {
     else if (e.target.getAttribute("data-filter") === "*") {
         portfolioContainer.innerHTML = "";
         portfolioSpinner.style.display = "block";
+
+        currentActive.classList.remove("filter-active");
+        e.target.classList.add("filter-active");
+        currentActive = e.target;
+
         portfolios.forEach(portfolio => {
             // Create Element For Common
             const div = document.createElement("div");
