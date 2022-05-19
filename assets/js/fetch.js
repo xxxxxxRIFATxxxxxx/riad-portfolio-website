@@ -5,37 +5,30 @@ portfolioContainer.classList.add("row");
 portfolioContainer.classList.add("portfolio-container");
 
 let portfolios = [];
-let motionGraphicVideo = [];
-let tvc = [];
-let htmlCss = [];
-let threeDAnimation = [];
-let staticDesign = [];
-let branding = [];
-let printMedia = [];
-let uiUx = [];
 
-fetch("https://fast-coast-58840.herokuapp.com/portfolios")
-    .then(res => res.json())
-    .then(data => {
-        portfolios = data.result;
-        portfolios.sort(function (a, b) { return a.serial - b.serial });
+const fetchPortfolio = (category) => {
+    fetch(`https://fast-coast-58840.herokuapp.com/portfolios?category=${category}`)
+        .then(res => res.json())
+        .then(data => {
+            portfolios = data.result;
+            portfolios.sort(function (a, b) { return a.serial - b.serial });
 
-        portfolios.forEach(portfolio => {
-            // Create Element For Common
-            const div = document.createElement("div");
-            div.classList.add("col-lg-4");
-            div.classList.add("col-md-6");
-            div.classList.add("portfolio-item");
-            div.classList.add(portfolio.category);
+            portfolios.forEach(portfolio => {
+                // Create Element For Common
+                const div = document.createElement("div");
+                div.classList.add("col-lg-4");
+                div.classList.add("col-md-6");
+                div.classList.add("portfolio-item");
+                div.classList.add(portfolio.category);
 
-            if (portfolio.type === "video") {
-                // Create Element For Video
-                div.innerHTML = `<iframe width="100%" height="auto" src="${portfolio.source}" title="${portfolio.title}" frameborder="0" allow="accelerometer; autoplay="0"; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-            }
+                if (portfolio.type === "video") {
+                    // Create Element For Video
+                    div.innerHTML = `<iframe width="100%" height="auto" src="${portfolio.source}" title="${portfolio.title}" frameborder="0" allow="accelerometer; autoplay="0"; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+                }
 
-            else if (portfolio.type === "image") {
-                // Create Element For Image
-                div.innerHTML = `
+                else if (portfolio.type === "image") {
+                    // Create Element For Image
+                    div.innerHTML = `
                 <div class="portfolio-wrap">
                     <img src="${portfolio.source}" class="img-fluid" alt="${portfolio.title}">
                     <div class="portfolio-info">
@@ -47,33 +40,18 @@ fetch("https://fast-coast-58840.herokuapp.com/portfolios")
                         </div>
                     </div>
                 </div>`;
-            };
+                };
 
-            portfolioContainer.appendChild(div);
-        });
+                portfolioContainer.appendChild(div);
+            });
 
-        motionGraphicVideo = portfolios.filter(portfolio => portfolio.category === "motion-graphic-video");
-
-        tvc = portfolios.filter(portfolio => portfolio.category === "tvc");
-
-        htmlCss = portfolios.filter(portfolio => portfolio.category === "html-css");
-
-        threeDAnimation = portfolios.filter(portfolio => portfolio.category === "3D-animation");
-
-        staticDesign = portfolios.filter(portfolio => portfolio.category === "static-design");
-
-        branding = portfolios.filter(portfolio => portfolio.category === "branding");
-
-        printMedia = portfolios.filter(portfolio => portfolio.category === "print-media");
-
-        uiUx = portfolios.filter(portfolio => portfolio.category === "ui-ux");
-
-        portfolioParentContainer.appendChild(portfolioContainer);
-
-        setTimeout(() => {
+            portfolioParentContainer.appendChild(portfolioContainer);
             portfolioSpinner.style.display = "none";
-        }, 2000);
-    });
+        });
+};
+
+// Initial Fetch
+fetchPortfolio("motion-graphic-video");
 
 let currentActive = document.querySelector(".filter-active");
 
@@ -86,41 +64,7 @@ portfolioFlters.addEventListener("click", (e) => {
         currentActive.classList.remove("filter-active");
         e.target.classList.add("filter-active");
         currentActive = e.target;
-
-        motionGraphicVideo.forEach(portfolio => {
-            // Create Element For Common
-            const div = document.createElement("div");
-            div.classList.add("col-lg-4");
-            div.classList.add("col-md-6");
-            div.classList.add("portfolio-item");
-            div.classList.add(portfolio.category);
-
-            if (portfolio.type === "video") {
-                // Create Element For Video
-                div.innerHTML = `<iframe width="100%" height="auto" src="${portfolio.source}" title="${portfolio.title}" frameborder="0" allow="accelerometer; autoplay="0"; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-            }
-
-            else if (portfolio.type === "image") {
-                // Create Element For Image
-                div.innerHTML = `
-                <div class="portfolio-wrap">
-                    <img src="${portfolio.source}" class="img-fluid" alt="${portfolio.title}">
-                    <div class="portfolio-info">
-                        <p>${portfolio.title}</p>
-                        <div class="portfolio-links">
-                            <a href="${portfolio.source}" data-gallery="portfolioGallery" class="portfolio-lightbox">
-                                <i class="bx bx-plus"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>`;
-            };
-
-            portfolioContainer.appendChild(div);
-            setTimeout(() => {
-                portfolioSpinner.style.display = "none";
-            }, 2000);
-        });
+        fetchPortfolio("motion-graphic-video");
     }
 
     else if (e.target.getAttribute("data-filter") === ".tvc") {
@@ -131,40 +75,7 @@ portfolioFlters.addEventListener("click", (e) => {
         e.target.classList.add("filter-active");
         currentActive = e.target;
 
-        tvc.forEach(portfolio => {
-            // Create Element For Common
-            const div = document.createElement("div");
-            div.classList.add("col-lg-4");
-            div.classList.add("col-md-6");
-            div.classList.add("portfolio-item");
-            div.classList.add(portfolio.category);
-
-            if (portfolio.type === "video") {
-                // Create Element For Video
-                div.innerHTML = `<iframe width="100%" height="auto" src="${portfolio.source}" title="${portfolio.title}" frameborder="0" allow="accelerometer; autoplay="0"; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-            }
-
-            else if (portfolio.type === "image") {
-                // Create Element For Image
-                div.innerHTML = `
-                <div class="portfolio-wrap">
-                    <img src="${portfolio.source}" class="img-fluid" alt="${portfolio.title}">
-                    <div class="portfolio-info">
-                        <p>${portfolio.title}</p>
-                        <div class="portfolio-links">
-                            <a href="${portfolio.source}" data-gallery="portfolioGallery" class="portfolio-lightbox">
-                                <i class="bx bx-plus"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>`;
-            };
-
-            portfolioContainer.appendChild(div);
-            setTimeout(() => {
-                portfolioSpinner.style.display = "none";
-            }, 2000);
-        });
+        fetchPortfolio("tvc");
     }
 
     else if (e.target.getAttribute("data-filter") === ".html-css") {
@@ -175,40 +86,7 @@ portfolioFlters.addEventListener("click", (e) => {
         e.target.classList.add("filter-active");
         currentActive = e.target;
 
-        htmlCss.forEach(portfolio => {
-            // Create Element For Common
-            const div = document.createElement("div");
-            div.classList.add("col-lg-4");
-            div.classList.add("col-md-6");
-            div.classList.add("portfolio-item");
-            div.classList.add(portfolio.category);
-
-            if (portfolio.type === "video") {
-                // Create Element For Video
-                div.innerHTML = `<iframe width="100%" height="auto" src="${portfolio.source}" title="${portfolio.title}" frameborder="0" allow="accelerometer; autoplay="0"; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-            }
-
-            else if (portfolio.type === "image") {
-                // Create Element For Image
-                div.innerHTML = `
-                <div class="portfolio-wrap">
-                    <img src="${portfolio.source}" class="img-fluid" alt="${portfolio.title}">
-                    <div class="portfolio-info">
-                        <p>${portfolio.title}</p>
-                        <div class="portfolio-links">
-                            <a href="${portfolio.source}" data-gallery="portfolioGallery" class="portfolio-lightbox">
-                                <i class="bx bx-plus"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>`;
-            };
-
-            portfolioContainer.appendChild(div);
-            setTimeout(() => {
-                portfolioSpinner.style.display = "none";
-            }, 2000);
-        });
+        fetchPortfolio("html-css");
     }
 
     else if (e.target.getAttribute("data-filter") === ".3D-animation") {
@@ -219,40 +97,7 @@ portfolioFlters.addEventListener("click", (e) => {
         e.target.classList.add("filter-active");
         currentActive = e.target;
 
-        threeDAnimation.forEach(portfolio => {
-            // Create Element For Common
-            const div = document.createElement("div");
-            div.classList.add("col-lg-4");
-            div.classList.add("col-md-6");
-            div.classList.add("portfolio-item");
-            div.classList.add(portfolio.category);
-
-            if (portfolio.type === "video") {
-                // Create Element For Video
-                div.innerHTML = `<iframe width="100%" height="auto" src="${portfolio.source}" title="${portfolio.title}" frameborder="0" allow="accelerometer; autoplay="0"; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-            }
-
-            else if (portfolio.type === "image") {
-                // Create Element For Image
-                div.innerHTML = `
-                <div class="portfolio-wrap">
-                    <img src="${portfolio.source}" class="img-fluid" alt="${portfolio.title}">
-                    <div class="portfolio-info">
-                        <p>${portfolio.title}</p>
-                        <div class="portfolio-links">
-                            <a href="${portfolio.source}" data-gallery="portfolioGallery" class="portfolio-lightbox">
-                                <i class="bx bx-plus"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>`;
-            };
-
-            portfolioContainer.appendChild(div);
-            setTimeout(() => {
-                portfolioSpinner.style.display = "none";
-            }, 2000);
-        });
+        fetchPortfolio("3D-animation");
     }
 
     else if (e.target.getAttribute("data-filter") === ".static-design") {
@@ -263,40 +108,7 @@ portfolioFlters.addEventListener("click", (e) => {
         e.target.classList.add("filter-active");
         currentActive = e.target;
 
-        staticDesign.forEach(portfolio => {
-            // Create Element For Common
-            const div = document.createElement("div");
-            div.classList.add("col-lg-4");
-            div.classList.add("col-md-6");
-            div.classList.add("portfolio-item");
-            div.classList.add(portfolio.category);
-
-            if (portfolio.type === "video") {
-                // Create Element For Video
-                div.innerHTML = `<iframe width="100%" height="auto" src="${portfolio.source}" title="${portfolio.title}" frameborder="0" allow="accelerometer; autoplay="0"; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-            }
-
-            else if (portfolio.type === "image") {
-                // Create Element For Image
-                div.innerHTML = `
-                <div class="portfolio-wrap">
-                    <img src="${portfolio.source}" class="img-fluid" alt="${portfolio.title}">
-                    <div class="portfolio-info">
-                        <p>${portfolio.title}</p>
-                        <div class="portfolio-links">
-                            <a href="${portfolio.source}" data-gallery="portfolioGallery" class="portfolio-lightbox">
-                                <i class="bx bx-plus"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>`;
-            };
-
-            portfolioContainer.appendChild(div);
-            setTimeout(() => {
-                portfolioSpinner.style.display = "none";
-            }, 2000);
-        });
+        fetchPortfolio("static-design");
     }
 
     else if (e.target.getAttribute("data-filter") === ".branding") {
@@ -307,40 +119,7 @@ portfolioFlters.addEventListener("click", (e) => {
         e.target.classList.add("filter-active");
         currentActive = e.target;
 
-        branding.forEach(portfolio => {
-            // Create Element For Common
-            const div = document.createElement("div");
-            div.classList.add("col-lg-4");
-            div.classList.add("col-md-6");
-            div.classList.add("portfolio-item");
-            div.classList.add(portfolio.category);
-
-            if (portfolio.type === "video") {
-                // Create Element For Video
-                div.innerHTML = `<iframe width="100%" height="auto" src="${portfolio.source}" title="${portfolio.title}" frameborder="0" allow="accelerometer; autoplay="0"; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-            }
-
-            else if (portfolio.type === "image") {
-                // Create Element For Image
-                div.innerHTML = `
-                <div class="portfolio-wrap">
-                    <img src="${portfolio.source}" class="img-fluid" alt="${portfolio.title}">
-                    <div class="portfolio-info">
-                        <p>${portfolio.title}</p>
-                        <div class="portfolio-links">
-                            <a href="${portfolio.source}" data-gallery="portfolioGallery" class="portfolio-lightbox">
-                                <i class="bx bx-plus"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>`;
-            };
-
-            portfolioContainer.appendChild(div);
-            setTimeout(() => {
-                portfolioSpinner.style.display = "none";
-            }, 2000);
-        });
+        fetchPortfolio("branding");
     }
 
     else if (e.target.getAttribute("data-filter") === ".print-media") {
@@ -351,40 +130,7 @@ portfolioFlters.addEventListener("click", (e) => {
         e.target.classList.add("filter-active");
         currentActive = e.target;
 
-        printMedia.forEach(portfolio => {
-            // Create Element For Common
-            const div = document.createElement("div");
-            div.classList.add("col-lg-4");
-            div.classList.add("col-md-6");
-            div.classList.add("portfolio-item");
-            div.classList.add(portfolio.category);
-
-            if (portfolio.type === "video") {
-                // Create Element For Video
-                div.innerHTML = `<iframe width="100%" height="auto" src="${portfolio.source}" title="${portfolio.title}" frameborder="0" allow="accelerometer; autoplay="0"; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-            }
-
-            else if (portfolio.type === "image") {
-                // Create Element For Image
-                div.innerHTML = `
-                <div class="portfolio-wrap">
-                    <img src="${portfolio.source}" class="img-fluid" alt="${portfolio.title}">
-                    <div class="portfolio-info">
-                        <p>${portfolio.title}</p>
-                        <div class="portfolio-links">
-                            <a href="${portfolio.source}" data-gallery="portfolioGallery" class="portfolio-lightbox">
-                                <i class="bx bx-plus"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>`;
-            };
-
-            portfolioContainer.appendChild(div);
-            setTimeout(() => {
-                portfolioSpinner.style.display = "none";
-            }, 2000);
-        });
+        fetchPortfolio("print-media");
     }
 
     else if (e.target.getAttribute("data-filter") === ".ui-ux") {
@@ -395,84 +141,7 @@ portfolioFlters.addEventListener("click", (e) => {
         e.target.classList.add("filter-active");
         currentActive = e.target;
 
-        uiUx.forEach(portfolio => {
-            // Create Element For Common
-            const div = document.createElement("div");
-            div.classList.add("col-lg-4");
-            div.classList.add("col-md-6");
-            div.classList.add("portfolio-item");
-            div.classList.add(portfolio.category);
-
-            if (portfolio.type === "video") {
-                // Create Element For Video
-                div.innerHTML = `<iframe width="100%" height="auto" src="${portfolio.source}" title="${portfolio.title}" frameborder="0" allow="accelerometer; autoplay="0"; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-            }
-
-            else if (portfolio.type === "image") {
-                // Create Element For Image
-                div.innerHTML = `
-                <div class="portfolio-wrap">
-                    <img src="${portfolio.source}" class="img-fluid" alt="${portfolio.title}">
-                    <div class="portfolio-info">
-                        <p>${portfolio.title}</p>
-                        <div class="portfolio-links">
-                            <a href="${portfolio.source}" data-gallery="portfolioGallery" class="portfolio-lightbox">
-                                <i class="bx bx-plus"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>`;
-            };
-
-            portfolioContainer.appendChild(div);
-            setTimeout(() => {
-                portfolioSpinner.style.display = "none";
-            }, 2000);
-        });
-    }
-
-    else if (e.target.getAttribute("data-filter") === "*") {
-        portfolioContainer.innerHTML = "";
-        portfolioSpinner.style.display = "block";
-
-        currentActive.classList.remove("filter-active");
-        e.target.classList.add("filter-active");
-        currentActive = e.target;
-
-        portfolios.forEach(portfolio => {
-            // Create Element For Common
-            const div = document.createElement("div");
-            div.classList.add("col-lg-4");
-            div.classList.add("col-md-6");
-            div.classList.add("portfolio-item");
-            div.classList.add(portfolio.category);
-
-            if (portfolio.type === "video") {
-                // Create Element For Video
-                div.innerHTML = `<iframe width="100%" height="auto" src="${portfolio.source}" title="${portfolio.title}" frameborder="0" allow="accelerometer; autoplay="0"; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-            }
-
-            else if (portfolio.type === "image") {
-                // Create Element For Image
-                div.innerHTML = `
-                <div class="portfolio-wrap">
-                    <img src="${portfolio.source}" class="img-fluid" alt="${portfolio.title}">
-                    <div class="portfolio-info">
-                        <p>${portfolio.title}</p>
-                        <div class="portfolio-links">
-                            <a href="${portfolio.source}" data-gallery="portfolioGallery" class="portfolio-lightbox">
-                                <i class="bx bx-plus"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>`;
-            };
-
-            portfolioContainer.appendChild(div);
-            setTimeout(() => {
-                portfolioSpinner.style.display = "none";
-            }, 2000);
-        });
+        fetchPortfolio("ui-ux");
     };
 });
 
