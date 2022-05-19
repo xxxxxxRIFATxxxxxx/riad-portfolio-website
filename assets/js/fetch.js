@@ -23,7 +23,7 @@ const fetchPortfolio = (category) => {
 
                 if (portfolio.type === "video") {
                     // Create Element For Video
-                    div.innerHTML = `<iframe width="100%" height="auto" src="${portfolio.source}" title="${portfolio.title}" frameborder="0" allow="accelerometer; autoplay="0"; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+                    div.innerHTML = `<iframe width="100%" height="400px" src="${portfolio.source}" title="${portfolio.title}" frameborder="0" allow="accelerometer; autoplay="0"; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
                 }
 
                 else if (portfolio.type === "image") {
