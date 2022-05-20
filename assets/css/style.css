@@ -78,6 +78,56 @@ h6 {
   color: #18d26e !important;
 }
 
+.green-bg {
+  background-color: #18D26E;
+}
+
+.colorChange {
+  animation: colorChangeAnimation 4s infinite;
+}
+
+@keyframes colorChangeAnimation {
+  10% {
+    background-color: #18D26E;
+  }
+
+  20% {
+    background-color: red;
+  }
+
+  30% {
+    background-color: blue;
+  }
+
+  40% {
+    background-color: rgb(224, 36, 67);
+  }
+
+  50% {
+    background-color: slateblue;
+  }
+
+  60% {
+    background-color: black;
+  }
+
+  70% {
+    background-color: magenta;
+  }
+
+  80% {
+    background-color: brown;
+  }
+
+  90% {
+    background-color: blueviolet;
+  }
+
+  100% {
+    background-color: #18D26E;
+  }
+}
+
 /*--------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/
