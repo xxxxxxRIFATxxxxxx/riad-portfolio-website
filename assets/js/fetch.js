@@ -7,7 +7,7 @@ portfolioContainer.classList.add("portfolio-container");
 let portfolios = [];
 
 const fetchPortfolio = (category) => {
-    fetch(`https://fast-coast-58840.herokuapp.com/portfolios?category=${category}`)
+    fetch(`https://riad-portfolio-website.onrender.com/portfolios?category=${category}`)
         .then(res => res.json())
         .then(data => {
             portfolios = data.result;

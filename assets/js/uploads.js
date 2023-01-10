@@ -20,7 +20,7 @@ form.addEventListener("submit", (e) => {
         source
     };
 
-    fetch("https://fast-coast-58840.herokuapp.com/portfolios", {
+    fetch("https://riad-portfolio-website.onrender.com/portfolios", {
         method: "POST",
         body: JSON.stringify(portfolios),
         headers: {
