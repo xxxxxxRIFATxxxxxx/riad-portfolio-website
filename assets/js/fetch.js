@@ -6,52 +6,121 @@ portfolioContainer.classList.add("portfolio-container");
 
 let portfolios = [];
 
-const fetchPortfolio = (category) => {
-    fetch(`https://riad-portfolio-website.onrender.com/portfolios?category=${category}`)
+// const fetchPortfolio = (category) => {
+//     fetch(`https://riad-portfolio-website.onrender.com/portfolios?category=${category}`)
+//         .then(res => res.json())
+//         .then(data => {
+//             portfolios = data.result;
+//             portfolios.sort(function (a, b) { return a.serial - b.serial });
+
+//             portfolios.forEach(portfolio => {
+//                 // Create Element For Common
+//                 const div = document.createElement("div");
+//                 div.classList.add("col-lg-4");
+//                 div.classList.add("col-md-6");
+//                 div.classList.add("portfolio-item");
+//                 div.classList.add(portfolio.category);
+
+//                 if (portfolio.type === "video") {
+//                     // Create Element For Video
+//                     div.innerHTML = `<iframe width="100%" height="400px" src="${portfolio.source}" title="${portfolio.title}" frameborder="0" allow="accelerometer; autoplay="0"; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+//                 }
+
+//                 else if (portfolio.type === "image") {
+//                     // Create Element For Image
+//                     div.innerHTML = `
+//                 <div class="portfolio-wrap">
+//                     <img src="${portfolio.source}" class="img-fluid" alt="${portfolio.title}">
+//                     <div class="portfolio-info">
+//                         <p>${portfolio.title}</p>
+//                         <div class="portfolio-links">
+//                             <a href="${portfolio.source}" data-gallery="portfolioGallery" class="portfolio-lightbox">
+//                                 <i class="bx bx-plus"></i>
+//                             </a>
+//                         </div>
+//                     </div>
+//                 </div>`;
+//                 };
+
+//                 portfolioContainer.appendChild(div);
+//             });
+
+//             portfolioParentContainer.appendChild(portfolioContainer);
+//             portfolioSpinner.style.display = "none";
+//         });
+// };
+
+// Initial Fetch
+
+const fetchAllPortfolios = () => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://riad-portfolio-website.onrender.com/portfolios`)
         .then(res => res.json())
         .then(data => {
             portfolios = data.result;
-            portfolios.sort(function (a, b) { return a.serial - b.serial });
-
-            portfolios.forEach(portfolio => {
-                // Create Element For Common
-                const div = document.createElement("div");
-                div.classList.add("col-lg-4");
-                div.classList.add("col-md-6");
-                div.classList.add("portfolio-item");
-                div.classList.add(portfolio.category);
-
-                if (portfolio.type === "video") {
-                    // Create Element For Video
-                    div.innerHTML = `<iframe width="100%" height="400px" src="${portfolio.source}" title="${portfolio.title}" frameborder="0" allow="accelerometer; autoplay="0"; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-                }
-
-                else if (portfolio.type === "image") {
-                    // Create Element For Image
-                    div.innerHTML = `
-                <div class="portfolio-wrap">
-                    <img src="${portfolio.source}" class="img-fluid" alt="${portfolio.title}">
-                    <div class="portfolio-info">
-                        <p>${portfolio.title}</p>
-                        <div class="portfolio-links">
-                            <a href="${portfolio.source}" data-gallery="portfolioGallery" class="portfolio-lightbox">
-                                <i class="bx bx-plus"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>`;
-                };
-
-                portfolioContainer.appendChild(div);
-            });
-
-            portfolioParentContainer.appendChild(portfolioContainer);
-            portfolioSpinner.style.display = "none";
+            portfolios.sort(function (a, b) { return a.serial - b.serial })
+            resolve();
         });
+    });
+}
+
+const fetchPortfolio = (portfolios, category) => {
+    return new Promise((resolve, reject) => {
+        const newPortolios = [];
+
+        portfolios.map((portfolio) => {
+            if (portfolio.category === category) {
+                newPortolios.push(portfolio);
+            }
+        })
+
+        newPortolios.forEach(portfolio => {
+            // Create Element For Common
+            const div = document.createElement("div");
+            div.classList.add("col-lg-4");
+            div.classList.add("col-md-6");
+            div.classList.add("portfolio-item");
+            div.classList.add(portfolio.category);
+
+            if (portfolio.type === "video") {
+                // Create Element For Video
+                div.innerHTML = `<iframe width="100%" height="400px" src="${portfolio.source}" title="${portfolio.title}" frameborder="0" allow="accelerometer; autoplay="0"; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+            }
+
+            else if (portfolio.type === "image") {
+                // Create Element For Image
+                div.innerHTML = `
+            <div class="portfolio-wrap">
+                <img src="${portfolio.source}" class="img-fluid" alt="${portfolio.title}">
+                <div class="portfolio-info">
+                    <p>${portfolio.title}</p>
+                    <div class="portfolio-links">
+                        <a href="${portfolio.source}" data-gallery="portfolioGallery" class="portfolio-lightbox">
+                            <i class="bx bx-plus"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>`;
+            };
+
+            portfolioContainer.appendChild(div);
+        });
+
+        portfolioParentContainer.appendChild(portfolioContainer);
+        portfolioSpinner.style.display = "none";
+
+        resolve();
+    })
 };
 
-// Initial Fetch
-fetchPortfolio("motion-graphic-video");
+const initFetchPortfolios = async () => {
+    await fetchAllPortfolios();
+    await fetchPortfolio(portfolios, "motion-graphic-video")
+};
+
+initFetchPortfolios();
+
+// fetchPortfolio("motion-graphic-video");
 
 let currentActive = document.querySelector(".filter-active");
 
@@ -64,7 +133,7 @@ portfolioFlters.addEventListener("click", (e) => {
         currentActive.classList.remove("filter-active");
         e.target.classList.add("filter-active");
         currentActive = e.target;
-        fetchPortfolio("motion-graphic-video");
+        fetchPortfolio(portfolios, "motion-graphic-video");
     }
 
     else if (e.target.getAttribute("data-filter") === ".tvc") {
@@ -75,7 +144,7 @@ portfolioFlters.addEventListener("click", (e) => {
         e.target.classList.add("filter-active");
         currentActive = e.target;
 
-        fetchPortfolio("tvc");
+        fetchPortfolio(portfolios, "tvc");
     }
 
     else if (e.target.getAttribute("data-filter") === ".html-css") {
@@ -86,7 +155,7 @@ portfolioFlters.addEventListener("click", (e) => {
         e.target.classList.add("filter-active");
         currentActive = e.target;
 
-        fetchPortfolio("html-css");
+        fetchPortfolio(portfolios, "html-css");
     }
 
     else if (e.target.getAttribute("data-filter") === ".3D-animation") {
@@ -97,7 +166,7 @@ portfolioFlters.addEventListener("click", (e) => {
         e.target.classList.add("filter-active");
         currentActive = e.target;
 
-        fetchPortfolio("3D-animation");
+        fetchPortfolio(portfolios, "3D-animation");
     }
 
     else if (e.target.getAttribute("data-filter") === ".static-design") {
@@ -108,7 +177,7 @@ portfolioFlters.addEventListener("click", (e) => {
         e.target.classList.add("filter-active");
         currentActive = e.target;
 
-        fetchPortfolio("static-design");
+        fetchPortfolio(portfolios, "static-design");
     }
 
     else if (e.target.getAttribute("data-filter") === ".branding") {
@@ -119,7 +188,7 @@ portfolioFlters.addEventListener("click", (e) => {
         e.target.classList.add("filter-active");
         currentActive = e.target;
 
-        fetchPortfolio("branding");
+        fetchPortfolio(portfolios, "branding");
     }
 
     else if (e.target.getAttribute("data-filter") === ".print-media") {
@@ -130,7 +199,7 @@ portfolioFlters.addEventListener("click", (e) => {
         e.target.classList.add("filter-active");
         currentActive = e.target;
 
-        fetchPortfolio("print-media");
+        fetchPortfolio(portfolios, "print-media");
     }
 
     else if (e.target.getAttribute("data-filter") === ".ui-ux") {
@@ -141,7 +210,7 @@ portfolioFlters.addEventListener("click", (e) => {
         e.target.classList.add("filter-active");
         currentActive = e.target;
 
-        fetchPortfolio("ui-ux");
+        fetchPortfolio(portfolios, "ui-ux");
     };
 });
 
